@@ -1,0 +1,26 @@
+docker-machine create -d virtualbox --virtualbox-cpu-count 2 --virtualbox-memory 2048 --swarm-master test1
+Creating VirtualBox VM...
+Creating SSH key...
+Starting VirtualBox VM...
+Starting VM...
+To see how to connect Docker to this machine, run: docker-machine env test1
+
+# docker-machine env test1
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.99.100:2376"
+export DOCKER_CERT_PATH="/home/mattias/.docker/machine/machines/test1"
+export DOCKER_MACHINE_NAME="test1"
+# Run this command to configure your shell: 
+# eval "export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.99.100:2376"
+export DOCKER_CERT_PATH="/home/mattias/.docker/machine/machines/test1"
+export DOCKER_MACHINE_NAME="test1"
+# Run this command to configure your shell: 
+# eval "$(docker-machine env test1)""
+
+eval "export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.99.100:2376"
+export DOCKER_CERT_PATH="/home/mattias/.docker/machine/machines/test1"
+export DOCKER_MACHINE_NAME="test1"
+# Run this command to configure your shell: 
+# eval "$(docker-machine env test1)""
