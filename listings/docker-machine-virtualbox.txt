@@ -1,0 +1,35 @@
+$ docker-machine create -d virtualbox vb-test1
+Creating VirtualBox VM...
+Creating SSH key...
+Starting VirtualBox VM...
+Starting VM...
+To see how to connect Docker to this machine, run: docker-machine env vb-test1
+
+$ docker-machine env vb-test1
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.99.100:2376"
+export DOCKER_CERT_PATH="/home/mattias/.docker/machine/machines/vb-test1"
+export DOCKER_MACHINE_NAME="vb-test1"
+# Run this command to configure your shell: 
+# eval "$(docker-machine env vb-test1)"
+
+$ eval $(docker-machine env vb-test1)
+$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+$ docker run -t -i --rm ubuntu /bin/bash
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+
+6071b4945dcf: Pull complete 
+5bff21ba5409: Pull complete 
+e5855facec0b: Pull complete 
+8251da35e7a7: Pull complete 
+Digest: sha256:1572e29178048ad9ab72e78edd4decc91a3d8a8dea0ca39817efc7cf2d86c6d7
+Status: Downloaded newer image for ubuntu:latest
+root@e173e452af8a:/# cat /etc/lsb-release    
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=14.04
+DISTRIB_CODENAME=trusty
+DISTRIB_DESCRIPTION="Ubuntu 14.04.3 LTS"
+root@e173e452af8a:/# exit
+

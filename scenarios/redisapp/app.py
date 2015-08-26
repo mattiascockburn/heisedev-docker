@@ -10,7 +10,7 @@ redis = Redis(host=os.environ['REDIS_HOST'], port=6379)
 @app.route('/')
 def hello():
     redis.incr('hits')
-    return 'Hallo heise Developer Leser. Diese Seite wurde %s mal aufgerufen.' % redis.get('hits')
+    return 'Hallo heise Developer Leser. Diese Seite wurde %s mal aufgerufen.\n' % redis.get('hits')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

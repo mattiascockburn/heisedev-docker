@@ -1,0 +1,35 @@
+$ export DIGITALOCEAN_ACCESS_TOKEN=Geheimes_API_Token
+$ docker-machine create -d digitalocean \
+    --digitalocean-region ams3 do-test1
+Creating SSH key...
+Creating Digital Ocean droplet...
+To see how to connect Docker to this machine, run: docker-machine env do-test1
+$ docker-machine ls
+NAME       ACTIVE   DRIVER         STATE     URL                        SWARM
+do-test1            digitalocean   Running   tcp://128.199.53.81:2376   
+$ docker-machine ssh do-test1
+Welcome to Ubuntu 14.04.3 LTS (GNU/Linux 3.13.0-57-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+  System information as of Mon Aug 24 09:22:51 EDT 2015
+
+  System load:  0.66              Processes:              72
+  Usage of /:   8.0% of 19.56GB   Users logged in:        0
+  Memory usage: 13%               IP address for eth0:    128.199.53.81
+  Swap usage:   0%                IP address for docker0: 172.17.42.1
+
+  Graph this data and manage this system at:
+    https://landscape.canonical.com/
+
+root@do-test1:~# logout
+$ eval $(docker-machine env do-test1)
+$ docker run -t -i --rm busybox \
+    echo Hello World from Digitalocean
+Unable to find image 'busybox:latest' locally
+latest: Pulling from library/busybox
+[...]
+Status: Downloaded newer image for busybox:latest
+Hello World from Digitalocean
+$ docker-machine rm do-test1
+Successfully removed do-test1

@@ -1,0 +1,45 @@
+$ docker-compose scale folding=2
+Creating and starting 1...
+Creating and starting 2...
+Pulling folding (jordan0day/folding-at-home:latest)...
+swarmmaster: Pulling jordan0day/folding-at-home:latest...
+swarm01: Pulling jordan0day/folding-at-home:latest...
+swarm02: Pulling jordan0day/folding-at-home:latest...
+Pulling folding (jordan0day/folding-at-home:latest)...
+swarmmaster: Pulling jordan0day/folding-at-home:latest... : downloaded
+Creating and starting 1... done
+Creating and starting 2... done
+$ docker-compose ps
+      Name                     Command               State   Ports 
+------------------------------------------------------------------
+scaling_folding_1   /bin/sh -c /etc/init.d/FAH ...   Up            
+scaling_folding_2   /bin/sh -c /etc/init.d/FAH ...   Up            
+$ docker ps
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS               NAMES
+999bf67a3af0        jordan0day/folding-at-home   "/bin/sh -c '/etc/ini"   38 seconds ago      Up 37 seconds                           swarm02/scaling_folding_1
+9412083c1217        jordan0day/folding-at-home   "/bin/sh -c '/etc/ini"   44 seconds ago      Up 43 seconds                           swarm01/scaling_folding_2
+$ docker-compose logs
+Attaching to scaling_folding_1, scaling_folding_2
+folding_2 | Starting fahclient ... OK
+folding_2 | 16:55:25:<config>
+folding_2 | 16:55:25:  <!-- Folding Slot Configuration -->
+folding_2 | 16:55:25:  <power v='medium'/>
+folding_2 | 16:55:25:
+folding_2 | 16:55:25:  <!-- Folding Slots -->
+folding_2 | 16:55:25:</config>
+folding_2 | 16:55:25:Switching to user fahclient
+folding_2 | 16:55:25:Trying to access database...
+folding_2 | 16:55:25:Successfully acquired database lock
+folding_2 | 16:55:25:Enabled folding slot 00: PAUSED cpu:0 (not configured)
+folding_1 | Starting fahclient ... OK
+folding_1 | 16:55:32:<config>
+folding_1 | 16:55:32:  <!-- Folding Slot Configuration -->
+folding_1 | 16:55:32:  <power v='medium'/>
+folding_1 | 16:55:32:
+folding_1 | 16:55:32:  <!-- Folding Slots -->
+folding_1 | 16:55:32:</config>
+folding_1 | 16:55:32:Switching to user fahclient
+folding_1 | 16:55:32:Trying to access database...
+folding_1 | 16:55:32:Successfully acquired database lock
+folding_1 | 16:55:32:Enabled folding slot 00: PAUSED cpu:0 (not configured)
+[...]

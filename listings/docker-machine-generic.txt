@@ -1,0 +1,29 @@
+$ docker-machine create -d generic --generic-ip-address 172.19.134.32 --generic-ssh-user root --generic-ssh-key ~/.ssh/test_nopasswd generic1
+Importing SSH key...
+To see how to connect Docker to this machine, run: docker-machine env generic1
+$ docker-machine ssh generic1
+Welcome to Ubuntu 14.04.3 LTS (GNU/Linux 3.13.0-61-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+Last login: Tue Aug 25 03:37:00 2015 from 172.19.200.86
+root@generic1:~# logout
+$ eval "$(docker-machine env generic1)"
+$ docker run -p 8080:80 -d nginx
+Unable to find image 'nginx:latest' locally
+latest: Pulling from library/nginx
+902b87aaaec9: Pull complete 
+[...]
+Status: Downloaded newer image for nginx:latest
+8db18861780e12ae8ebee493f63e1dadb9b6b51b481619522c02929a8376ab7e
+$ docker-machine ip generic1
+172.19.134.32
+$ curl http://172.19.134.32:8080
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+[...]
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+

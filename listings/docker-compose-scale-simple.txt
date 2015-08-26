@@ -1,0 +1,37 @@
+$ docker-compose -f compose-simple.yml -p heisedev scale simpledemo=10
+Creating and starting 1... done
+[...]
+Creating and starting 9... done
+Creating and starting 10... done
+$ docker-compose -f compose-simple.yml -p heisedev logs
+Attaching to heisedev_simpledemo_10, heisedev_simpledemo_9, heisedev_simpledemo_7, heisedev_simpledemo_8, heisedev_simpledemo_6, heisedev_simpledemo_4, heisedev_simpledemo_5, heisedev_simpledemo_1, heisedev_simpledemo_2, heisedev_simpledemo_3
+[...]
+simpledemo_4  | Hello World from simpledemo
+simpledemo_1  | Hello World from simpledemo
+simpledemo_3  | Hello World from simpledemo
+simpledemo_8  | Hello World from simpledemo
+simpledemo_4  | Hello World from simpledemo
+simpledemo_10 | Hello World from simpledemo
+simpledemo_6  | Hello World from simpledemo
+[...]
+simpledemo_2  | Hello World from simpledemo
+simpledemo_5  | Hello World from simpledemo
+simpledemo_1  | Hello World from simpledemo
+simpledemo_7  | Hello World from simpledemo
+simpledemo_3  | Hello World from simpledemo
+simpledemo_2  | Hello World from simpledemo
+^C
+Aborting.
+$ docker-compose -f compose-simple.yml -p heisedev scale simpledemo=2
+Stopping heisedev_simpledemo_3... done
+[...]
+Stopping heisedev_simpledemo_10... done
+Removing heisedev_simpledemo_10... done
+[...]
+Removing heisedev_simpledemo_3... done
+$ docker-compose -f compose-simple.yml -p heisedev scale simpledemo=0
+Stopping heisedev_simpledemo_1... done
+Stopping heisedev_simpledemo_2... done
+Removing heisedev_simpledemo_1... done
+Removing heisedev_simpledemo_2... done
+

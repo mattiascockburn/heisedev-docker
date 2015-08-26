@@ -1,0 +1,20 @@
+$ cat compose-simple.yml 
+simpledemo:
+  image: busybox:latest
+  command: 'sh -c "while true; do echo Hello World from simpledemo; sleep 2;done"'
+$ docker-compose -f compose-simple.yml -p heisedev up -d
+Creating heisedev_simpledemo_1...
+$ docker-compose -f compose-simple.yml -p heisedev logs
+Attaching to heisedev_simpledemo_1
+simpledemo_1 | Hello World from simpledemo
+simpledemo_1 | Hello World from simpledemo
+simpledemo_1 | Hello World from simpledemo
+simpledemo_1 | Hello World from simpledemo
+^C
+Aborting.
+$ docker-compose -f compose-simple.yml -p heisedev kill
+Killing heisedev_simpledemo_1... done
+$ docker-compose -f compose-simple.yml -p heisedev rm -f
+Going to remove heisedev_simpledemo_1
+Removing heisedev_simpledemo_1... done
+

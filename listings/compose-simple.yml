@@ -1,0 +1,3 @@
+simpledemo:
+  image: busybox:latest
+  command: 'sh -c "while true; do echo Hello World from simpledemo; sleep 2;done"'

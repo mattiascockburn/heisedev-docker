@@ -1,0 +1,48 @@
+$ docker run swarm create
+b97ad62a1064281cadbe61efd46a7975
+$ docker-machine create -d virtualbox --swarm --swarm-master \
+    --swarm-discovery token://b97ad62a1064281cadbe61efd46a7975 swarmmaster
+Creating VirtualBox VM...
+Creating SSH key...
+Starting VirtualBox VM...
+Starting VM...
+To see how to connect Docker to this machine, run: docker-machine env swarmmaster
+$ docker-machine ls
+NAME          ACTIVE   DRIVER       STATE     URL                         SWARM
+swarmmaster            virtualbox   Running   tcp://192.168.99.100:2376   swarmmaster (master)
+
+$ for a in 1 2; do docker-machine create -d virtualbox --swarm \
+    --swarm-discovery token://b97ad62a1064281cadbe61efd46a7975 swarm0$a;done
+Creating VirtualBox VM...
+Creating SSH key...
+Starting VirtualBox VM...
+Starting VM...
+To see how to connect Docker to this machine, run: docker-machine env swarm01
+Creating VirtualBox VM...
+[...]
+$ docker-machine ls
+NAME          ACTIVE   DRIVER       STATE     URL                         SWARM
+swarm01                virtualbox   Running   tcp://192.168.99.101:2376   swarmmaster
+swarm02                virtualbox   Running   tcp://192.168.99.102:2376   swarmmaster
+swarmmaster            virtualbox   Running   tcp://192.168.99.100:2376   swarmmaster (master)
+$ docker-machine env swarmmaster
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.99.100:2376"
+export DOCKER_CERT_PATH="/home/mattias/.docker/machine/machines/swarmmaster"
+export DOCKER_MACHINE_NAME="swarmmaster"
+# Run this command to configure your shell:
+# eval "$(docker-machine env swarmmaster)"
+$ docker-machine env --swarm swarmmaster
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.99.100:3376"
+export DOCKER_CERT_PATH="/home/mattias/.docker/machine/machines/swarmmaster"
+export DOCKER_MACHINE_NAME="swarmmaster"
+# Run this command to configure your shell: 
+# eval "$(docker-machine env swarmmaster)"
+$ eval $(eval docker-machine env --swarm swarmmaster)
+$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+swarm               latest              207e8b983242        11 days ago         10.2 MB
+swarm               latest              207e8b983242        11 days ago         10.2 MB
+swarm               latest              207e8b983242        11 days ago         10.2 MB
+

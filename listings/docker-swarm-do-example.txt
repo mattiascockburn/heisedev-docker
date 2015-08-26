@@ -1,0 +1,67 @@
+$ export DIGITALOCEAN_ACCESS_TOKEN=Geheimes_API_Token_von_DigitalOcean
+$ docker-machine create -d digitalocean --swarm --swarm-master --swarm-discovery token://82bcafa8bfe0aa4231d8ce16311cd615 cloudswarm
+Creating SSH key...
+Creating Digital Ocean droplet...
+Error creating machine: Maximum number of retries (60) exceeded
+You will want to check the provider to make sure the machine and associated resources were properly removed.
+$ docker rm -f cloudswarm
+Error response from daemon: no such id: cloudswarm
+Error: failed to remove containers: [cloudswarm]
+$ docker-machine rm -f cloudswarm
+Successfully removed cloudswarm
+$ docker-machine create -d digitalocean --digitalocean-region fra1 --swarm --swarm-master --swarm-discovery token://82bcafa8bfe0aa4231d8ce16311cd615 cloudswarm
+Creating SSH key...
+Creating Digital Ocean droplet...
+To see how to connect Docker to this machine, run: docker-machine env cloudswarm
+$ for a in {1..3}; do docker-machine create -d digitalocean --digitalocean-region fra1 --swarm --swarm-discovery token://82bcafa8bfe0aa4231d8ce16311cd615 swarm-node-$a;done
+Creating SSH key...
+Creating Digital Ocean droplet...
+To see how to connect Docker to this machine, run: docker-machine env swarm-node-1
+[...]
+To see how to connect Docker to this machine, run: docker-machine env swarm-node-3
+$ eval $(docker-machine env --swarm cloudswarm)
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+$ cat docker-compose.yml 
+cheapexample:
+  build: .
+  dockerfile: dockerfile_cheap
+
+folding:
+  image: jordan0day/folding-at-home
+
+$ docker-compose scale folding=2
+Creating and starting 2... done
+$ docker ps
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS               NAMES
+69c217f7f75f        jordan0day/folding-at-home   "/bin/sh -c '/etc/ini"   6 seconds ago       Up 5 seconds                            swarm-node-1/scaling_folding_2
+908bcd07883d        jordan0day/folding-at-home   "/bin/sh -c '/etc/ini"   18 minutes ago      Up 18 minutes                           swarm-node-3/scaling_folding_1
+$ docker-compose logs
+Attaching to scaling_folding_2, scaling_folding_1
+folding_2 | Starting fahclient ... OK
+folding_2 | 12:59:09:       GPUs: 0
+folding_2 | 12:59:09:       CUDA: Not detected
+[...]
+folding_2 | 12:59:09:Enabled folding slot 00: PAUSED cpu:0 (not configured)
+folding_1 | Starting fahclient ... OK
+folding_1 | 12:40:31:       GPUs: 0
+[...]
+folding_1 | 12:45:47:WU00:FS00:0xa4:Assembly optimizations on if available.
+folding_1 | 12:45:47:WU00:FS00:0xa4:Entering M.D.
+folding_1 | 12:45:54:WU00:FS00:0xa4:Completed 0 out of 250000 steps  (0%)
+folding_1 | 12:58:28:WU00:FS00:0xa4:Completed 2500 out of 250000 steps  (1%)
+^C
+Aborting.
+$ docker-compose stop
+Stopping scaling_folding_2... done
+Stopping scaling_folding_1... done
+$ docker-compose rm -f
+Going to remove scaling_folding_2, scaling_folding_1
+Removing scaling_folding_2... done
+Removing scaling_folding_1... done
+$ for machine in swarm-node-{1..3} cloudswarm; do docker-machine rm -f $machine;done
+Successfully removed swarm-node-1
+Successfully removed swarm-node-2
+Successfully removed swarm-node-3
+Successfully removed cloudswarm
+

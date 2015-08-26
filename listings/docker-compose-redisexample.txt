@@ -1,0 +1,52 @@
+$ cat docker-compose.yml 
+web:
+  build: .
+  command: python app.py
+  ports:
+  - "5000:5000"
+  volumes:
+  - .:/code
+  links:
+  - redis
+  environment:
+    REDIS_HOST: redis
+redis:
+  image: orchardup/redis
+$ cat Dockerfile 
+FROM orchardup/python:2.7
+ADD . /code
+WORKDIR /code
+RUN pip install -r requirements.txt
+$ docker-compose up -d
+Creating redisapp_redis_1...
+Building web...
+Step 0 : FROM orchardup/python:2.7
+ ---> cdc18ed4ed6f
+Step 1 : ADD . /code
+ ---> 9f4410a55b9f
+Removing intermediate container 388da4978c40
+Step 2 : WORKDIR /code
+ ---> Running in c7326e01e2a0
+ ---> 30d7aaaa9bbd
+Removing intermediate container c7326e01e2a0
+Step 3 : RUN pip install -r requirements.txt
+ ---> Running in 12e55ecf0148
+[...]
+Successfully built 4b3fa150696b
+Creating redisapp_web_1...
+$ while true; do curl http://127.0.0.1:5000;sleep 1;done
+Hallo heise Developer Leser. Diese Seite wurde 1 mal aufgerufen.
+Hallo heise Developer Leser. Diese Seite wurde 2 mal aufgerufen.
+Hallo heise Developer Leser. Diese Seite wurde 3 mal aufgerufen.
+[...]
+Hallo heise Developer Leser. Diese Seite wurde 11 mal aufgerufen.
+Hallo heise Developer Leser. Diese Seite wurde 12 mal aufgerufen.
+^C
+$ docker-compose stop
+Stopping redisapp_web_1... done
+Stopping redisapp_redis_1... done
+$ docker-compose rm -fv
+Going to remove redisapp_web_1, redisapp_redis_1
+Removing redisapp_web_1... done
+Removing redisapp_redis_1... done
+

@@ -1,7 +1,0 @@
-FROM centos:6
-MAINTAINER Mattias Giese <giese@b1-systems.de>
-
-RUN yum -y update ;\
-    yum -y install wget ;\
-    wget -O /etc/yum.repos.d/owncloud.repo \
-    http://download.opensuse.org/repositories/isv:/ownCloud:/community:/8.1/CentOS-CentOS_6/isv:ownCloud:community:8.1.repo
